@@ -14,22 +14,49 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
   String _experienceTitle = "";
   String _description = "";
   String _category = "full-time"; //default
+  String _thumbnail = "";
+  DateTime? _endedAt;
 
-  /*
-  thumbnail
-  started_at
-  ended_at
-  starred_by
-  */
+  // key: nilai yang disimpan, value: teks yang ditampilkan
+  final Map<String, String> _categories = {
+    'internship': 'Internship',
+    'research': 'Research',
+    'volunteer': 'Volunteer',
+    'part-time': 'Part-Time',
+    'full-time': 'Full-Time',
+    'freelance': 'Freelance',
+  };
 
-  final List<String> _categories = [
-    'internship',
-    'research',
-    'volunteer',
-    'part-time',
-    'full-time',
-    'freelance',
-  ];
+  Future<void> _pickEndedAt() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _endedAt ?? DateTime.now(),
+      firstDate: DateTime(2007),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      setState(() {
+        _endedAt = picked;
+      });
+    }
+  }
+
+  String _formatDate(DateTime date) {
+    final d = date.day.toString().padLeft(2, '0');
+    final m = date.month.toString().padLeft(2, '0');
+    return '$d-$m-${date.year}';
+  }
+
+  void _resetForm() {
+    _formKey.currentState!.reset();
+    setState(() {
+      _experienceTitle = "";
+      _description = "";
+      _category = "full-time";
+      _thumbnail = "";
+      _endedAt = null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +81,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  maxLength: 255,
                   decoration: InputDecoration(
                     hintText: "Experience Title",
                     labelText: "Experience Title",
@@ -112,10 +140,10 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                     ),
                   ),
                   initialValue: _category,
-                  items: _categories
-                      .map((category) => DropdownMenuItem(
-                        value: category,
-                        child: Text(category),
+                  items: _categories.entries
+                      .map((entry) => DropdownMenuItem(
+                        value: entry.key,
+                        child: Text(entry.value),
                         ))
                       .toList(),
                   onChanged: (String? newValue) {
@@ -126,7 +154,63 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                 ),
               ),
 
-              // === Other ===
+              // === Thumbnail ===
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  keyboardType: TextInputType.url,
+                  decoration: InputDecoration(
+                    hintText: "https://contoh.com/gambar.jpg",
+                    labelText: "Thumbnail URL (opsional)",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _thumbnail = value!;
+                    });
+                  },
+                  validator: (String? value) {
+                    final text = value?.trim() ?? '';
+                    if (text.isEmpty) return null;
+                    final uri = Uri.tryParse(text);
+                    final valid = uri != null && uri.hasAuthority && (
+                      uri.scheme == 'http' || uri.scheme == 'https'
+                    );
+                    return valid ? null : "URL harus diawali http:// atau https://";
+                  },
+                ),
+              ),
+
+              // === Ended At (opsional) ===
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _endedAt == null
+                          ? 'Selesai: -'
+                          : 'Selesai: ${_formatDate(_endedAt!)}'
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: _pickEndedAt,
+                      child: const Text('Pilih tanggal'),
+                    ),
+                    if (_endedAt != null)
+                      IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          setState(() {
+                            _endedAt = null;
+                          });
+                        },
+                      ),
+                  ],
+                ),
+              ),
 
               // === Tombol Simpan ===
               Align(
@@ -151,7 +235,12 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                                   children: [
                                     Text('Experience: $_experienceTitle'),
                                     Text('Deskripsi: $_description'),
-                                    Text('Kategori: $_category'),
+                                    Text('Kategori: ${_categories[_category]}'),
+                                    Text('Thumbnail: ${_thumbnail.isEmpty ? "-" : _thumbnail}'),
+                                    Text(_endedAt == null
+                                      ? 'Selesai: -'
+                                      : 'Selesai: ${_formatDate(_endedAt!)}'
+                                    ),
                                   ],
                                 ),
                               ),
@@ -160,7 +249,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                                   child: const Text('OK'),
                                   onPressed: () {
                                     Navigator.pop(context);
-                                    _formKey.currentState!.reset();
+                                    _resetForm();
                                   },
                                 ),
                               ],
