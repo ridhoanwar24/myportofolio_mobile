@@ -173,7 +173,7 @@ class _EducationFormPageState extends State<EducationFormPage> {
                     if (started == null) {
                       return "Tahun mulai tidak boleh kosong!";
                     }
-                    if (started.bitLength < 11) {
+                    if (started.bitLength < 11 || started.bitLength > 13) {
                       return "Tahun tidak valid.";
                     }
                     return null;
@@ -204,7 +204,7 @@ class _EducationFormPageState extends State<EducationFormPage> {
                   validator: (String? value) {
                     final ended = int.tryParse(value?.trim() ?? '');
                     if (ended == null) return null;
-                    if (ended.bitLength < 11) {
+                    if (ended.bitLength < 11 || ended.bitLength > 13) {
                       return "Tahun tidak valid.";
                     }
                     if (_yearStarted != null && ended < _yearStarted!) {
