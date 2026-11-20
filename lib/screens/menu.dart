@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/widget/left_drawer.dart';
-import 'package:myportofolio_mobile/widget/experiences_card.dart';
+import 'package:myportofolio_mobile/widget/items_card.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
