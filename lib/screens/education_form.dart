@@ -54,10 +54,7 @@ class _EducationFormPageState extends State<EducationFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text('Add Education Form',
-          ),
-        ),
+        title: const Center(child: Text('Add Education Form')),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
       ),
@@ -106,10 +103,12 @@ class _EducationFormPageState extends State<EducationFormPage> {
                   ),
                   initialValue: _category,
                   items: _categories.entries
-                      .map((entry) => DropdownMenuItem(
-                        value: entry.key,
-                        child: Text(entry.value),
-                        ))
+                      .map(
+                        (entry) => DropdownMenuItem(
+                          value: entry.key,
+                          child: Text(entry.value),
+                        ),
+                      )
                       .toList(),
                   onChanged: (String? newValue) {
                     setState(() {
@@ -140,10 +139,13 @@ class _EducationFormPageState extends State<EducationFormPage> {
                     final text = value?.trim() ?? '';
                     if (text.isEmpty) return null;
                     final uri = Uri.tryParse(text);
-                    final valid = uri != null && uri.hasAuthority && (
-                      uri.scheme == 'http' || uri.scheme == 'https'
-                    );
-                    return valid ? null : "URL harus diawali http:// atau https://";
+                    final valid =
+                        uri != null &&
+                        uri.hasAuthority &&
+                        (uri.scheme == 'http' || uri.scheme == 'https');
+                    return valid
+                        ? null
+                        : "URL harus diawali http:// atau https://";
                   },
                 ),
               ),
@@ -222,8 +224,7 @@ class _EducationFormPageState extends State<EducationFormPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: 
-                        WidgetStateProperty.all(Colors.indigo),
+                      backgroundColor: WidgetStateProperty.all(Colors.indigo),
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -231,18 +232,23 @@ class _EducationFormPageState extends State<EducationFormPage> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text('Education berhasil ditambahkan!'),
+                              title: const Text(
+                                'Education berhasil ditambahkan!',
+                              ),
                               content: SingleChildScrollView(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('Institution: $_institutionName'),
                                     Text('Kategori: ${_categories[_category]}'),
-                                    Text('Thumbnail: ${_thumbnail.isEmpty ? "-" : _thumbnail}'),
+                                    Text(
+                                      'Thumbnail: ${_thumbnail.isEmpty ? "-" : _thumbnail}',
+                                    ),
                                     Text('Tahun Mulai: $_yearStarted'),
-                                    Text(_yearEnded == null
-                                      ? 'Tahun Selesai: -'
-                                      : 'Tahun Selesai: $_yearEnded'
+                                    Text(
+                                      _yearEnded == null
+                                          ? 'Tahun Selesai: -'
+                                          : 'Tahun Selesai: $_yearEnded',
                                     ),
                                   ],
                                 ),

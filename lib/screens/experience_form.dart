@@ -139,9 +139,11 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                 Text('Deskripsi: ${e.description}'),
                 Text('Kategori: ${_categories[e.category]}'),
                 Text('Thumbnail: ${e.thumbnail ?? "-"}'),
-                Text(e.endedAt == null
-                    ? 'Selesai: -'
-                    : 'Selesai: ${_formatDate(e.endedAt!)}'),
+                Text(
+                  e.endedAt == null
+                      ? 'Selesai: -'
+                      : 'Selesai: ${_formatDate(e.endedAt!)}',
+                ),
               ],
             ),
           ),
@@ -163,11 +165,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'Add Experience Form',
-          ),
-        ),
+        title: const Center(child: Text('Add Experience Form')),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
       ),
@@ -242,10 +240,12 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                   ),
                   initialValue: _category,
                   items: _categories.entries
-                      .map((entry) => DropdownMenuItem(
-                        value: entry.key,
-                        child: Text(entry.value),
-                        ))
+                      .map(
+                        (entry) => DropdownMenuItem(
+                          value: entry.key,
+                          child: Text(entry.value),
+                        ),
+                      )
                       .toList(),
                   onChanged: (ExperienceCategory? newValue) {
                     setState(() {
@@ -276,10 +276,13 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                     final text = value?.trim() ?? '';
                     if (text.isEmpty) return null;
                     final uri = Uri.tryParse(text);
-                    final valid = uri != null && uri.hasAuthority && (
-                      uri.scheme == 'http' || uri.scheme == 'https'
-                    );
-                    return valid ? null : "URL harus diawali http:// atau https://";
+                    final valid =
+                        uri != null &&
+                        uri.hasAuthority &&
+                        (uri.scheme == 'http' || uri.scheme == 'https');
+                    return valid
+                        ? null
+                        : "URL harus diawali http:// atau https://";
                   },
                 ),
               ),
@@ -292,8 +295,8 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                     Expanded(
                       child: Text(
                         _endedAt == null
-                          ? 'Selesai: -'
-                          : 'Selesai: ${_formatDate(_endedAt!)}'
+                            ? 'Selesai: -'
+                            : 'Selesai: ${_formatDate(_endedAt!)}',
                       ),
                     ),
                     TextButton(
@@ -320,23 +323,22 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: 
-                        WidgetStateProperty.all(Colors.indigo),
+                      backgroundColor: WidgetStateProperty.all(Colors.indigo),
                     ),
                     onPressed: _isSubmitting ? null : _submit,
                     child: _isSubmitting
-                      ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
-                    : const Text(
-                      "Save",
-                      style: TextStyle(color: Colors.white),
-                      ),
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Text(
+                            "Save",
+                            style: TextStyle(color: Colors.white),
+                          ),
                   ),
                 ),
               ),

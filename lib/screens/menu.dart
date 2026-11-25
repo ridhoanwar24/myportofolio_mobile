@@ -11,9 +11,17 @@ class MyHomePage extends StatelessWidget {
 
   final List<ItemHomepage> items = [
     ItemHomepage("Lihat Experience", Icons.work, Colors.orange.shade800),
-    ItemHomepage("Tambah Experience", Icons.add_circle, Colors.deepOrange.shade600),
+    ItemHomepage(
+      "Tambah Experience",
+      Icons.add_circle,
+      Colors.deepOrange.shade600,
+    ),
     ItemHomepage("Lihat Education", Icons.school, Colors.purple.shade700),
-    ItemHomepage("Tambah Education", Icons.add_circle, Colors.deepPurple.shade700),
+    ItemHomepage(
+      "Tambah Education",
+      Icons.add_circle,
+      Colors.deepPurple.shade700,
+    ),
     ItemHomepage("Logout", Icons.logout, Colors.red.shade700),
   ];
 
@@ -25,13 +33,10 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'MyPortfolio',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        iconTheme: const IconThemeData(color: Colors.white)
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: const LeftDrawer(),
       // Body halaman utama dengan padding di sekelilingnya.
@@ -109,10 +114,7 @@ class InfoCard extends StatelessWidget {
         // Menyusun teks title dan content secara vertikal.
         child: Column(
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8.0),
             Text(content),
           ],

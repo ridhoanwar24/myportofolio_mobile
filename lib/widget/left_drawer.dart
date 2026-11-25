@@ -18,9 +18,7 @@ class LeftDrawer extends StatelessWidget {
         children: [
           const DrawerHeader(
             // Bagian drawer header
-            decoration: BoxDecoration(
-              color: Colors.indigo,
-            ),
+            decoration: BoxDecoration(color: Colors.indigo),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -35,10 +33,7 @@ class LeftDrawer extends StatelessWidget {
                 SizedBox(height: 10),
                 Text(
                   'Explore personal experiences and educations!',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
               ],
             ),
@@ -50,10 +45,8 @@ class LeftDrawer extends StatelessWidget {
             // Navigasi ke halaman utama portofolio
             onTap: () {
               Navigator.pushReplacement(
-                context, 
-                MaterialPageRoute(
-                  builder: (context) => MyHomePage(),
-                ),
+                context,
+                MaterialPageRoute(builder: (context) => MyHomePage()),
               );
             },
           ),
@@ -67,9 +60,7 @@ class LeftDrawer extends StatelessWidget {
               //Routing ke halaman ProjectFormPage.
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => ExperienceFormPage(),
-                ),
+                MaterialPageRoute(builder: (context) => ExperienceFormPage()),
               );
             },
           ),
@@ -81,9 +72,7 @@ class LeftDrawer extends StatelessWidget {
               if (!ok || !context.mounted) return;
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => EducationFormPage(),
-                ),
+                MaterialPageRoute(builder: (context) => EducationFormPage()),
               );
             },
           ),

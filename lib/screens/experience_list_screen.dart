@@ -3,6 +3,7 @@ import 'package:myportofolio_mobile/models/experience.dart';
 import 'package:myportofolio_mobile/services/api_client.dart';
 import 'package:myportofolio_mobile/widget/left_drawer.dart';
 import 'package:provider/provider.dart';
+
 //import 'package:myportfolio_mobile/screens/project_detail_screen.dart';
 
 class ExperienceListScreen extends StatefulWidget {
@@ -98,7 +99,9 @@ class _ExperienceListScreenState extends State<ExperienceListScreen> {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('${experience.category.name} · ${_period(experience)}'),
+                        Text(
+                          '${experience.category.name} · ${_period(experience)}',
+                        ),
                         const SizedBox(height: 4),
                         Text(
                           experience.description,
@@ -111,7 +114,7 @@ class _ExperienceListScreenState extends State<ExperienceListScreen> {
                     //TODO: onTap
                   ),
                 );
-              }
+              },
             ),
           );
         },
