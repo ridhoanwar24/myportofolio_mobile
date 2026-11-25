@@ -2,6 +2,9 @@ import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/screens/menu.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/education_form.dart';
+import 'package:myportofolio_mobile/widget/auth_guard.dart';
+import 'package:myportofolio_mobile/services/auth_state.dart';
+import 'package:provider/provider.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemHomepage item;
@@ -17,30 +20,51 @@ class ItemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         // Aksi ketika kartu ditekan oleh pengguna.
-        onTap: () {
-          // Menampilkan SnackBar dengan pesan interaktif.
-          ScaffoldMessenger.of(context)
+        onTap: () async {
+          final messenger = ScaffoldMessenger.of(context);
+          final authState = context.read<AuthState>();
+
+          messenger
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!"))
+              SnackBar(content: Text('Kamu telah menekan tombol ${item.name}')),
             );
 
-          // Navigate ke halaman yang sesuai
           if (item.name == "Tambah Experience") {
+            final ok = await ensureLoggedIn(context);
+            if (!ok || !context.mounted) return;
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => ExperienceFormPage(),
-              ),
+              MaterialPageRoute(builder: (context) => ExperienceFormPage()),
             );
           }
+
           if (item.name == "Tambah Education") {
+            final ok = await ensureLoggedIn(context);
+            if (!ok || !context.mounted) return;
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => EducationFormPage(),
-              ),
+              MaterialPageRoute(builder: (context) => EducationFormPage()),
             );
+          }
+
+          if (item.name == "Logout") {
+            if (!authState.isLoggedIn) {
+              messenger
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  const SnackBar(content: Text("Kamu belum login.")),
+                );
+              return;
+            }
+            try {
+              await authState.logout();
+            } catch (_) {}
+            messenger
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(content: Text("Kamu telah logout.")),
+              );
           }
         },
         child: Container(
